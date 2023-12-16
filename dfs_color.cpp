@@ -7,7 +7,7 @@ const int N= 1e5+10;
 vector<int> adjlist[N];
 
 map<int,string> vis;
-set<int> uniqueNodes; // Set to store unique nodes
+list<int> uniqueNodes; // Set to store unique nodes
 int currentTime=0;    
 
 void dfs(int nodes){
@@ -45,10 +45,18 @@ int main() {
         cin>>n1>>n2;
         adjlist[n1].push_back(n2);
         adjlist[n2].push_back(n1);
-        uniqueNodes.insert(n1); // Insert unique nodes into the set
-        uniqueNodes.insert(n2);
+        uniqueNodes.push_back(n1); // Insert unique nodes into the set
+        uniqueNodes.push_back(n2);
     }
-    
+    uniqueNodes.unique();
+    cout<<"Give the starting node : ";
+    int n;
+    cin>>n;
+    cout<<endl;
+    list<int>::iterator pos;
+    pos = find (uniqueNodes.begin(), uniqueNodes.end(),n);
+    uniqueNodes.erase(pos);
+    uniqueNodes.insert(uniqueNodes.begin(),n);                    
      for (auto node : uniqueNodes) {//for disconnected graph
         if (vis[node] != "BLACK") {
             dfs(node);//i can not take user starting point
