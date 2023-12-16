@@ -1,2 +1,0 @@
-
-	set<int>::iterator it;
