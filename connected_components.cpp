@@ -5,6 +5,8 @@
 using namespace std;
 const int N= 1e5+10;
 vector<int> adjlist[N];
+vector<int> curr_node;
+vector<vector<int>> connected_node;
 
 
 map<int,string> vis;
@@ -15,8 +17,9 @@ void dfs(int nodes){
     currentTime++;
     cout<<nodes<<" "<<"Start TIME "<<currentTime<<endl;
     
-   
+    
     vis[nodes]="GREY";
+    curr_node.push_back(nodes);
    for (int child:adjlist[nodes]) {
    
     if (vis[child]!="GREY" && vis[child]!="BLACK") // or if it is WHITE
@@ -57,12 +60,19 @@ int main() {
     list<int>::iterator pos;
     pos = find (uniqueNodes.begin(), uniqueNodes.end(),n);
     uniqueNodes.erase(pos);
+    int cg=0;
     uniqueNodes.insert(uniqueNodes.begin(),n);                    
      for (auto node : uniqueNodes) {//for disconnected graph
         if (vis[node] != "BLACK") {
-            dfs(node);//i can not take user starting point
+            curr_node.clear();
+            dfs(node);
+            cg++;
+            connected_node.push_back(curr_node);
+
         }
     }
+
+    cout<<"CONNECTED COMPONENTS: "<<cg<<endl;
 
     return 0;
 }
